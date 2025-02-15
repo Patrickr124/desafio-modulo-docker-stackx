@@ -1,0 +1,26 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: wikiuser
+      POSTGRES_PASSWORD: wikipassword
+      POSTGRES_DB: wikijs
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  wikijs:
+    image: requarks/wiki:latest
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: postgres
+      DB_USER: wikiuser
+      DB_PASS: wikipassword
+      DB_NAME: wikijs
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
